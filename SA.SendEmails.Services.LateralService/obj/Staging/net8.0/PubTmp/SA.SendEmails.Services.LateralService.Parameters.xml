@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters>
-  <parameter name="IIS Web Application Name" description="" value="SA.SendEmail.Services.LateralService/Staging" tags="IisApp">
-    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\Projects\\Sanlam\\SA\.SendEmails\\SA\.SendEmails\\SA\.SendEmails\.Services\.LateralService\\obj\\Staging\\net8\.0\\PubTmp\\Out\\$" />
-  </parameter>
-</parameters>
