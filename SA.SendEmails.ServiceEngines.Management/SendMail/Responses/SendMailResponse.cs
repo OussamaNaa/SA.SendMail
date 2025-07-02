@@ -6,7 +6,7 @@ namespace SA.SendEmails.ServiceEngines.Management.SendMail.Responses
 
         #region Properties
 
-        public bool isSended { get; set; }
+        public bool IsSended { get; set; }
 
         #endregion Properties
     }

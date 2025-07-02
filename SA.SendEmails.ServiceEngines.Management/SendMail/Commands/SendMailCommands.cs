@@ -13,7 +13,8 @@ namespace SA.SendEmails.ServiceEngines.Management.SendMail.Commands
         #region Properties
         public List<string> Emails { get; set; }
         public string From { get; set; }
-        public string? DisplayNAme { get; set; }
+        public string? DisplayName { get; set; }
+        public string? FromDisplayName { get; set; }
         public string Subject { get; set; }
         public string body { get; set; }
         public bool? IsBodyHtml { get; set; }
@@ -81,8 +82,8 @@ namespace SA.SendEmails.ServiceEngines.Management.SendMail.Commands
                         {
                             foreach (var item in request.Emails)
                             {
-                               bool test =  FunctionSendMail("", request.From, request.DisplayNAme, item, request.Subject, request.IsBodyHtml ?? false, request.body);
-                                mail = electronicMailSender.Send(item, request.DisplayNAme, request.Subject, request.body, request.IsBodyHtml ?? false, request.ElectronicMailAttachments);
+                                mail = FunctionSendMail(request.FromDisplayName, request.From, request.DisplayName, item, request.Subject, request.IsBodyHtml ?? false, request.body, request.ElectronicMailAttachments);
+                                //mail = electronicMailSender.Send(item, request.DisplayNAme, request.Subject, request.body, request.IsBodyHtml ?? false, request.ElectronicMailAttachments);
                             }
 
                         }
@@ -93,7 +94,7 @@ namespace SA.SendEmails.ServiceEngines.Management.SendMail.Commands
                         }
                     }
 
-                    response.isSended = mail;
+                    response.IsSended = mail;
 
                     response.IsSuccess = true;
                     response.IsPopulated = mail;
@@ -107,7 +108,7 @@ namespace SA.SendEmails.ServiceEngines.Management.SendMail.Commands
         }
 
 
-        public bool FunctionSendMail(string FromDisplayName, string From, string ToDisplayName, string To, string Subject, bool isBodyHtml, string Body)
+        public bool FunctionSendMail(string FromDisplayName, string From, string ToDisplayName, string To, string Subject, bool isBodyHtml, string Body, IEnumerable<ElectronicMailAttachment>? electronicMailAttachments)
         {
             try
             {
@@ -125,13 +126,13 @@ namespace SA.SendEmails.ServiceEngines.Management.SendMail.Commands
                     bodyBuilder.TextBody = Body;
                 }
 
-                //if (!electronicMailAttachments.IsNullOrEmpty())
-                //{
-                //    foreach (ElectronicMailAttachment electronicMailAttachment in electronicMailAttachments)
-                //    {
-                //        bodyBuilder.Attachments.Add(electronicMailAttachment.Name, electronicMailAttachment.Content);
-                //    }
-                //}
+                if (!electronicMailAttachments.IsNullOrEmpty())
+                {
+                    foreach (ElectronicMailAttachment electronicMailAttachment in electronicMailAttachments)
+                    {
+                        bodyBuilder.Attachments.Add(electronicMailAttachment.Name, electronicMailAttachment.Content);
+                    }
+                }
 
                 mimeMessage.Body = bodyBuilder.ToMessageBody();
                 using SmtpClient smtpClient = new SmtpClient();

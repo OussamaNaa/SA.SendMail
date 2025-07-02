@@ -115,7 +115,7 @@ webApplicationBuilder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssembli
 
 webApplicationBuilder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(Program).GetTypeInfo().Assembly));
 
-//webApplicationBuilder.Services.AddScoped<IRequestHandler<SendMailCommands, SendMailResponse>, SendMailCommandsHandler>();
+webApplicationBuilder.Services.AddScoped<IRequestHandler<SendMailCommands, SendMailResponse>, SendMailCommandsHandler>();
 
 webApplicationBuilder.Services.AddHttpContextAccessor();
 
@@ -152,5 +152,10 @@ webApplication.UseCors(c =>
 });
 
 webApplication.UseResponseCaching();
+
+
+webApplication.UseRouting();
+
+webApplication.MapControllers();
 
 webApplication.Run();

@@ -29,7 +29,7 @@ namespace SA.SendEmails.Services.LateralService.Controllers
         [HttpPost]
         [Route(nameof(SendMail))]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<SendMailResponse>> SendMail([FromForm] SendMailCommands command)
+        public async Task<ActionResult<SendMailResponse>> SendMail([FromBody] SendMailCommands command)
         {
             return  await this.mediator.Send(command);
         }
