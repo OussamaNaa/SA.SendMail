@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MimeKit" Version="4.9.0" />
+    <PackageReference Include="MailKit" Version="4.9.0" />
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="EPPlus" Version="8.0.6" />
+    <PackageReference Include="MediatR" Version="12.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SA.Framework.Core">
+      <HintPath>..\Libraries\SA.Framework.Core\SA.Framework.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SA.Framework.ServiceEngines">
+      <HintPath>..\Libraries\SA.Framework.ServiceEngines\SA.Framework.ServiceEngines.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

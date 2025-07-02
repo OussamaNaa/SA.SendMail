@@ -1,0 +1,173 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "SA.SendEmails.Services",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/SendMail/SendMail": {
+      "post": {
+        "tags": [
+          "SendMail"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Emails": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "From": {
+                    "type": "string"
+                  },
+                  "DisplayNAme": {
+                    "type": "string"
+                  },
+                  "Subject": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "string"
+                  },
+                  "IsBodyHtml": {
+                    "type": "boolean"
+                  },
+                  "ElectronicMailAttachments": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ElectronicMailAttachment"
+                    }
+                  },
+                  "CallingChannelCode": {
+                    "type": "string"
+                  },
+                  "CallerId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "Emails": {
+                  "style": "form"
+                },
+                "From": {
+                  "style": "form"
+                },
+                "DisplayNAme": {
+                  "style": "form"
+                },
+                "Subject": {
+                  "style": "form"
+                },
+                "body": {
+                  "style": "form"
+                },
+                "IsBodyHtml": {
+                  "style": "form"
+                },
+                "ElectronicMailAttachments": {
+                  "style": "form"
+                },
+                "CallingChannelCode": {
+                  "style": "form"
+                },
+                "CallerId": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendMailResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendMailResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendMailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ElectronicMailAttachment": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "contentType": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SendMailResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "isPopulated": {
+            "type": "boolean"
+          },
+          "informationMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "warningMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/SendMailResponse"
+          },
+          "isSended": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}
