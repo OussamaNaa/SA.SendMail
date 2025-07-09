@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using SA.SendEmails.ServiceEngines.Management.SendMail.Responses;
-using System;
 using System.Reflection;
 
 namespace SA.SendEmails.ServiceEngines.Management.SendMail.Commands
@@ -15,6 +14,7 @@ namespace SA.SendEmails.ServiceEngines.Management.SendMail.Commands
         public string From { get; set; }
         public string? DisplayName { get; set; }
         public string? FromDisplayName { get; set; }
+        public List<string>? CC { get; set; }
         public string Subject { get; set; }
         public string body { get; set; }
         public bool? IsBodyHtml { get; set; }
@@ -80,12 +80,7 @@ namespace SA.SendEmails.ServiceEngines.Management.SendMail.Commands
                     {
                         try
                         {
-                            foreach (var item in request.Emails)
-                            {
-                                mail = FunctionSendMail(request.FromDisplayName, request.From, request.DisplayName, item, request.Subject, request.IsBodyHtml ?? false, request.body, request.ElectronicMailAttachments);
-                                //mail = electronicMailSender.Send(item, request.DisplayNAme, request.Subject, request.body, request.IsBodyHtml ?? false, request.ElectronicMailAttachments);
-                            }
-
+                            mail = SendMail(request.FromDisplayName, request.From, request.DisplayName, request.Emails, request.Subject, request.IsBodyHtml ?? false, request.body, request.ElectronicMailAttachments, request.CC);
                         }
                         catch (Exception e)
                         {
@@ -108,13 +103,23 @@ namespace SA.SendEmails.ServiceEngines.Management.SendMail.Commands
         }
 
 
-        public bool FunctionSendMail(string FromDisplayName, string From, string ToDisplayName, string To, string Subject, bool isBodyHtml, string Body, IEnumerable<ElectronicMailAttachment>? electronicMailAttachments)
+        public bool SendMail(string FromDisplayName, string From, string ToDisplayName, List<string> To, string Subject, bool isBodyHtml, string Body, IEnumerable<ElectronicMailAttachment>? electronicMailAttachments, List<string> CC)
         {
             try
             {
                 using MimeMessage mimeMessage = new MimeMessage();
                 mimeMessage.From.Add(new MailboxAddress(FromDisplayName, From));
-                mimeMessage.To.Add(new MailboxAddress(ToDisplayName, To));
+                foreach (var to in To)
+                {
+                    mimeMessage.To.Add(new MailboxAddress(ToDisplayName, to));
+                }
+                if (CC.IsNotNull() && CC.Count > 0)
+                {
+                    foreach (var cc in CC)
+                    {
+                        mimeMessage.Cc.Add(new MailboxAddress("CC", cc));
+                    }
+                }
                 mimeMessage.Subject = Subject;
                 BodyBuilder bodyBuilder = new BodyBuilder();
                 if (isBodyHtml)
