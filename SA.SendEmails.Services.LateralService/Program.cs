@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using SA.SendEmails.ServiceEngines.Management.SendMail.Commands;
+using SA.SendEmails.Services.Common.Middlewares;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using static System.CoreConstants;
@@ -84,6 +85,8 @@ webApplicationBuilder.Services.AddControllers().AddJsonOptions(options =>
 WebApplication webApplication = webApplicationBuilder.Build();
 
 webApplication.UseRequestLocalization();
+
+webApplication.UseCustomException();
 
 if (bool.Parse(webApplicationBuilder.Configuration["Swagger:IsEnabled"]))
 {
